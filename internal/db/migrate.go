@@ -18,14 +18,14 @@ func (d *Database) MigrateDB() error {
 		return fmt.Errorf("could not create the postgres driver: %w", err)
 	}
 
-	m, err := migrate.NewWithDatabaseInstance("file://migrations", "postgres", driver)
+	m, err := migrate.NewWithDatabaseInstance("file:///migrations", "postgres", driver)
 
 	if err != nil {
 		return err
 	}
 
 	if err := m.Up(); err != nil {
-		return fmt.Errorf("Could not run migrations %w: ", err)
+		return fmt.Errorf("could not run migrations %w: ", err)
 	}
 
 	fmt.Println("Database migrated successfully!")

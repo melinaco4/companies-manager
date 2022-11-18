@@ -19,6 +19,12 @@ func Run() error {
 		return err
 	}
 	fmt.Println("Health Check: Pinged database successfully")
+
+	if err := db.MigrateDB(); err != nil {
+		return err
+	}
+	fmt.Println("Migration Check: Migrated database successfully")
+
 	return nil
 }
 func main() {
