@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/melinaco4/companies-manager/internal/company"
 	"github.com/melinaco4/companies-manager/internal/db"
 )
 
@@ -24,6 +25,11 @@ func Run() error {
 		return err
 	}
 	fmt.Println("Migration Check: Migrated database successfully")
+
+	cmpnyService := company.NewService(db)
+	fmt.Println(cmpnyService.GetCompany(
+		context.Background(), "dafafafafafafa",
+	))
 
 	return nil
 }
