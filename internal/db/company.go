@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/melinaco4/companies-manager/internal/company"
-	uuid "github.com/satori/go.uuid"
 )
 
 type CompanyRow struct {
@@ -53,6 +52,8 @@ func (d *Database) GetCompany(ctx context.Context, uuid string) (company.Company
 	return convertCompanyRowToCompany(cmpnyRow), nil
 }
 
+/*
+
 func (d *Database) PostCompany(ctx context.Context, cmpny company.Company) (company.Company, error) {
 	cmpny.ID = uuid.NewV4().String()
 	postRow := CompanyRow{
@@ -66,7 +67,7 @@ func (d *Database) PostCompany(ctx context.Context, cmpny company.Company) (comp
 
 	rows, err := d.Client.NamedQueryContext(
 		ctx,
-		`INSERT INTO comments 
+		`INSERT INTO comments
 		(id, name, description, amountofemployees, registered, type) VALUES
 		(:id, :name, :description, :amountofemployees, :registered, :type)`,
 		postRow,
@@ -99,7 +100,7 @@ func (d *Database) UpdateComment(ctx context.Context, id string, cmt company.Com
 		description = :description,
 		amountofemployees = :amountofemployees,
 		registered = registered,
-		type = type 
+		type = type
 		WHERE id = :id`,
 		cmpnyRow,
 	)
@@ -124,3 +125,4 @@ func (d *Database) DeleteCompany(ctx context.Context, id string) error {
 	}
 	return nil
 }
+*/
