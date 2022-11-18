@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/melinaco4/companies-manager/internal/db"
 )
 
 func Run() error {
@@ -16,6 +18,7 @@ func Run() error {
 	if err := db.Ping(context.Background()); err != nil {
 		return err
 	}
+	fmt.Println("Health Check: Pinged database successfully")
 	return nil
 }
 func main() {

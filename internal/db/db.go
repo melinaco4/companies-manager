@@ -7,8 +7,8 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	log "github.com/sirupsen/logrus"
 )
+
 type Database struct {
 	Client *sqlx.DB
 }
@@ -29,8 +29,8 @@ func NewDatabase() (*Database, error) {
 		return &Database{}, fmt.Errorf("Could not connect to the database: %w", err)
 	}
 
-	return &Database {
-		Client: dbConnection
+	return &Database{
+		Client: dbConnection,
 	}, nil
 }
 
