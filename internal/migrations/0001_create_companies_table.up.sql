@@ -5,3 +5,4 @@ CREATE TABLE IF NOT EXISTS companies (
     AmountOfEmployees int,
     Registered boolean,
     Type text
+);
