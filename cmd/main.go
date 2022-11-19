@@ -24,6 +24,17 @@ func Run() error {
 	}
 
 	cmpnService := company.NewService(db)
+	/*
+		fmt.Println(cmpnService.PostCompany(context.Background(),
+			company.Company{
+				ID:                "c2c49920-682b-11ed-8c0b-1564f1b782d6",
+				Name:              "Twitter",
+				Description:       "blabla",
+				AmountofEmployees: 13,
+				Registered:        true,
+				Type:              "test",
+			}))
+	*/
 
 	httpHandler := serveHttp.NewHandler(cmpnService)
 	if err := httpHandler.Serve(); err != nil {
