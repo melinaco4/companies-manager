@@ -1,18 +1,9 @@
 package company
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
-)
-
-var (
-	ErrFetchingCompany = errors.New("failed to fetch company by id")
-	ErrNotImplemented  = errors.New("not implemented")
-	ErrUpdatingCompany = errors.New("could not update company")
-	ErrNoCompanyFound  = errors.New("no company found")
-	ErrDeletingCompany = errors.New("could not delete company")
 )
 
 // representation of the company structure
