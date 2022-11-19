@@ -61,7 +61,7 @@ func (d *Database) PostCompany(ctx context.Context, cmpn company.Company) (compa
 	}
 	rows, err := d.Client.NamedQueryContext(
 		ctx,
-		`INSERT INTO comments
+		`INSERT INTO companies
 		(id, name, description, amountofemployees, registered, type)
 		VALUES
 		(:id, :name, :description, :amountofemployees, :registered, :type)`,
