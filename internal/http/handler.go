@@ -102,7 +102,7 @@ func (h *Handler) DeleteCompany(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	vars := mux.Vars(r)
-	id := vars["id"]
+	id := vars["ID"]
 	companyID, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		sendErrorResponse(w, "Failed to parse uint from ID", err)
