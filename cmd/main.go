@@ -7,6 +7,7 @@ import (
 	"github.com/melinaco4/companies-manager/internal/company"
 	"github.com/melinaco4/companies-manager/internal/database"
 	serveHttp "github.com/melinaco4/companies-manager/internal/http"
+	log "github.com/sirupsen/logrus"
 )
 
 //type App struct{}
@@ -21,6 +22,7 @@ func Run() error {
 	}
 	err = database.MigrateDB(db)
 	if err != nil {
+		log.Error("failed to setup database")
 		return err
 	}
 
