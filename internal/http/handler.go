@@ -11,11 +11,9 @@ import (
 	"github.com/melinaco4/companies-manager/internal/company"
 )
 
-type CompanyService interface{}
-
 type Handler struct {
 	Router  *mux.Router
-	Service CompanyService
+	Service *company.Service
 }
 
 type Response struct {
