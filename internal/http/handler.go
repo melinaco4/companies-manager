@@ -32,9 +32,19 @@ func NewHandler(service *company.Service) *Handler {
 	h.Router = mux.NewRouter()
 	h.mapRoutes()
 
+	// Sets up our middleware functions
+	h.Router.Use(JSONMiddleware)
+	// we also want to log every incoming request
+	h.Router.Use(LoggingMiddleware)
+	// We want to timeout all requests that take longer than 15 seconds
+	h.Router.Use(TimeoutMiddleware)
+
 	h.Server = &http.Server{
-		Addr:    "0.0.0.0:8080",
-		Handler: h.Router,
+		Addr:         "0.0.0.0:8080",
+		Handler:      h.Router,
+		WriteTimeout: time.Second * 10,
+		ReadTimeout:  time.Second * 10,
+		IdleTimeout:  time.Second * 60,
 	}
 
 	return h
