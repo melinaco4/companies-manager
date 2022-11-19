@@ -2,7 +2,6 @@ package http
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"net/http"
 	"strconv"
@@ -28,9 +27,7 @@ func NewHandler(service *company.Service) *Handler {
 }
 
 func (h *Handler) mapRoutes() {
-	h.Router.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello world of things")
-	})
+
 	h.Router = mux.NewRouter()
 	h.Router.HandleFunc("/api/company/{id}", h.GetCompany).Methods("GET")
 	h.Router.HandleFunc("/api/company", h.PostCompany).Methods("POST")
