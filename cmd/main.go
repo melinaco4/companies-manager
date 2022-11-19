@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/melinaco4/companies-manager/internal/company"
 	"github.com/melinaco4/companies-manager/internal/database"
@@ -26,8 +27,9 @@ func Run() error {
 	commentService := company.NewService(db)
 
 	handler := serveHttp.NewHandler(commentService)
+	handler.mapRoutes()
 
-	if err := handler.Serve(); err != nil {
+	if err := http.ListenAndServe(":8080", handler.Router); err != nil {
 		fmt.Println("Failed to set up server")
 		return err
 	}

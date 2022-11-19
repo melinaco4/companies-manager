@@ -1,16 +1,11 @@
 package http
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 
 	"net/http"
-	"os"
-	"os/signal"
 	"strconv"
-	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/melinaco4/companies-manager/internal/company"
@@ -21,7 +16,6 @@ type CompanyService interface{}
 type Handler struct {
 	Router  *mux.Router
 	Service CompanyService
-	Server  *http.Server
 }
 
 type Response struct {
@@ -29,50 +23,21 @@ type Response struct {
 	Error   string
 }
 
-func NewHandler(service CompanyService) *Handler {
-	h := &Handler{
+func NewHandler(service *company.Service) *Handler {
+	return &Handler{
 		Service: service,
 	}
-	h.Router = mux.NewRouter()
-	h.mapRoutes()
-
-	h.Server = &http.Server{
-		Addr:    "0.0.0.0:8080",
-		Handler: h.Router,
-	}
-
-	return h
 }
 
 func (h *Handler) mapRoutes() {
 	h.Router.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello world of things")
 	})
-
+	h.Router = mux.NewRouter()
 	h.Router.HandleFunc("/api/company/{id}", h.GetCompany).Methods("GET")
 	h.Router.HandleFunc("/api/company", h.PostCompany).Methods("POST")
 	h.Router.HandleFunc("/api/company{id}", h.UpdateCompany).Methods("PATCH")
 	h.Router.HandleFunc("/api/company{id}", h.DeleteCompany).Methods("DELETE")
-}
-
-func (h *Handler) Serve() error {
-	go func() {
-		if err := h.Server.ListenAndServe(); err != nil {
-			log.Println(err.Error())
-		}
-	}()
-
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	<-c
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	h.Server.Shutdown(ctx)
-
-	log.Println("shutdown gracefully")
-
-	return nil
 }
 
 func (h *Handler) PostCompany(w http.ResponseWriter, r *http.Request) {
