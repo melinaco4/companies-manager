@@ -46,7 +46,7 @@ func NewService(store Store) *Service {
 }
 
 func (s *Service) GetCompany(ctx context.Context, id string) (Company, error) {
-	fmt.Printf("Getting a Company with id: %s", id)
+	fmt.Printf("Getting a Company with id: %s\n", id)
 
 	cmt, err := s.Store.GetCompany(ctx, id)
 	if err != nil {
@@ -67,12 +67,12 @@ func (s *Service) UpdateCompany(
 		fmt.Println("error updating Company")
 		return Company{}, err
 	}
-	fmt.Printf("Updating Company with id: %s", ID)
+	fmt.Printf("Updating Company with id: %s\n", ID)
 	return cmpn, nil
 }
 
 func (s *Service) DeleteCompany(ctx context.Context, id string) error {
-	fmt.Printf("Deleting Company with id: %s", id)
+	fmt.Printf("Deleting Company with id: %s\n", id)
 	return s.Store.DeleteCompany(ctx, id)
 }
 
