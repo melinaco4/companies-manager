@@ -1,80 +1,83 @@
 package company
 
 import (
+	"context"
+	"errors"
 	"fmt"
-
-	"github.com/jinzhu/gorm"
 )
 
-// representation of the company structure
+var (
+	ErrFetchingCompany = errors.New("failed to fetch Companyby id")
+	ErrNotImplemented  = errors.New("not implemented")
+)
+
+// Comment - a representation of the comment
+// structure for our service
 type Company struct {
-	gorm.Model
+	ID                string
 	Name              string
 	Description       string
-	AmountofEmployees string
+	AmountofEmployees int
 	Registered        bool
 	Type              string
 }
 
-type CompanyService interface {
-	GetCompany(ID uint) (Company, error)
-	CreateCompany(company Company) (Company, error)
-	UpdateCompany(ID uint, newCompany Company) (Company, error)
-	DeleteCompany(ID uint) error
-	//	Ping(context.Context) error
+// Store - this interface defines all of the methods
+// that our service needs in order to operate
+type Store interface {
+	GetCompany(context.Context, string) (Company, error)
+	PostCompany(context.Context, Company) (Company, error)
+	DeleteCompany(context.Context, string) error
+	UpdateCompany(context.Context, string, Company) (Company, error)
 }
 
+// Service - is the struct on which all our
+// logic will be built on top of
 type Service struct {
-	DB *gorm.DB
+	Store Store
 }
 
-// returns a pointer to a new service
-func NewService(db *gorm.DB) *Service {
+// NewService - returns a pointer to a new
+// service
+func NewService(store Store) *Service {
 	return &Service{
-		DB: db,
+		Store: store,
 	}
 }
 
-func (s *Service) GetCompany(ID uint) (Company, error) {
-	var cmpn Company
-	fmt.Println("Retrieving Company...")
-	if result := s.DB.First(&cmpn, ID); result.Error != nil {
-		return Company{}, result.Error
+func (s *Service) GetCompany(ctx context.Context, id string) (Company, error) {
+	fmt.Println("retrieving a Company")
+
+	cmt, err := s.Store.GetCompany(ctx, id)
+	if err != nil {
+		fmt.Println(err)
+		return Company{}, ErrFetchingCompany
+	}
+
+	return cmt, nil
+}
+
+func (s *Service) UpdateCompany(
+	ctx context.Context,
+	ID string,
+	updatedCmpn Company,
+) (Company, error) {
+	cmpn, err := s.Store.UpdateCompany(ctx, ID, updatedCmpn)
+	if err != nil {
+		fmt.Println("error updating Company")
+		return Company{}, err
 	}
 	return cmpn, nil
 }
 
-func (s *Service) CreateCompany(company Company) (Company, error) {
-	if result := s.DB.Save(&company); result.Error != nil {
-		return Company{}, result.Error
-	}
-	return company, nil
+func (s *Service) DeleteCompany(ctx context.Context, id string) error {
+	return s.Store.DeleteCompany(ctx, id)
 }
 
-func (s *Service) UpdateCompany(ID uint, newCompany Company) (Company, error) {
-	company, err := s.GetCompany(ID)
+func (s *Service) PostCompany(ctx context.Context, cmpn Company) (Company, error) {
+	insertedCmpn, err := s.Store.PostCompany(ctx, cmpn)
 	if err != nil {
 		return Company{}, err
 	}
-
-	if result := s.DB.Model(&company).Updates(newCompany); result.Error != nil {
-		return Company{}, result.Error
-	}
-
-	return company, nil
+	return insertedCmpn, nil
 }
-
-func (s *Service) DeleteCompany(ID uint) error {
-	if result := s.DB.Delete(&Company{}, ID); result.Error != nil {
-		return result.Error
-	}
-	return nil
-}
-
-/*
-func (s *Service) ReadyCheck(ctx context.Context) error {
-	//log.Info("Checking readiness")
-	return s.Store.Ping(ctx)
-}
-
-*/

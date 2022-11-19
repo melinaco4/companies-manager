@@ -1,35 +1,39 @@
 package database
 
 import (
+	"context"
 	"fmt"
 	"os"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
-	log "github.com/sirupsen/logrus"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 )
 
-// NewDatabase - returns a pointer to a database object
-func NewDatabase() (*gorm.DB, error) {
-	log.Info("Setting up new database connection")
+type Database struct {
+	Client *sqlx.DB
+}
 
-	dbUsername := os.Getenv("DB_USERNAME")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbHost := os.Getenv("DB_HOST")
-	dbTable := os.Getenv("DB_TABLE")
-	dbPort := os.Getenv("DB_PORT")
-	sslmode := os.Getenv("SSL_MODE")
+func NewDatabase() (*Database, error) {
+	connectionString := fmt.Sprintf(
+		"host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USERNAME"),
+		os.Getenv("DB_TABLE"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("SSL_MODE"),
+	)
 
-	connectString := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", dbHost, dbPort, dbUsername, dbTable, dbPassword, sslmode)
-
-	db, err := gorm.Open("postgres", connectString)
+	dbConn, err := sqlx.Connect("postgres", connectionString)
 	if err != nil {
-		return db, err
+		return &Database{}, fmt.Errorf("could not connect to the database: %w", err)
 	}
 
-	if err := db.DB().Ping(); err != nil {
-		return db, err
-	}
+	return &Database{
+		Client: dbConn,
+	}, nil
+}
 
-	return db, nil
+func (d *Database) Ping(ctx context.Context) error {
+	return d.Client.DB.PingContext(ctx)
 }
