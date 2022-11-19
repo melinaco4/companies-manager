@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	ErrFetchingCompany = errors.New("failed to fetch Companyby id")
+	ErrFetchingCompany = errors.New("failed to fetch Company by id")
 	ErrNotImplemented  = errors.New("not implemented")
 )
 
-// Comment - a representation of the comment
-// structure for our service
+// Company Represention
+// structure for the service
 type Company struct {
 	ID                string
 	Name              string
@@ -23,7 +23,7 @@ type Company struct {
 }
 
 // Store - this interface defines all of the methods
-// that our service needs in order to operate
+// that the service needs in order to operate
 type Store interface {
 	GetCompany(context.Context, string) (Company, error)
 	PostCompany(context.Context, Company) (Company, error)
