@@ -11,11 +11,11 @@ import (
 //type App struct{}
 
 func Run() error {
-	fmt.Println("starting up our application")
+	fmt.Println("Application started and ready to go!")
 
 	db, err := database.NewDatabase()
 	if err != nil {
-		fmt.Println("Failed to connect to the database")
+		fmt.Println("failed to connect to the database")
 		return err
 	}
 	if err := db.MigrateDB(); err != nil {
@@ -44,7 +44,7 @@ func Run() error {
 	return nil
 }
 func main() {
-	fmt.Println("Heyyyyyy!")
+	fmt.Println("Hello!")
 	if err := Run(); err != nil {
 		fmt.Println(err)
 	}
