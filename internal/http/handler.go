@@ -62,7 +62,7 @@ func (h *Handler) Serve() error {
 func (h *Handler) mapRoutes() {
 
 	//h.Router = mux.NewRouter()
-	h.Router.HandleFunc("/api/company/{id}", h.GetCompany).Methods("GET")
+	h.Router.HandleFunc("/api/company/{id}", JWTAuth(h.GetCompany)).Methods("GET")
 	h.Router.HandleFunc("/api/company", h.PostCompany).Methods("POST")
 	h.Router.HandleFunc("/api/company/{id}", h.UpdateCompany).Methods("PATCH")
 	h.Router.HandleFunc("/api/company/{id}", h.DeleteCompany).Methods("DELETE")
