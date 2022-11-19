@@ -26,7 +26,6 @@ func Run() error {
 	commentService := company.NewService(db)
 
 	handler := serveHttp.NewHandler(commentService)
-	//handler.SetupRoutes()
 
 	if err := handler.Serve(); err != nil {
 		fmt.Println("Failed to set up server")
