@@ -25,7 +25,7 @@ type Response struct {
 }
 
 func NewHandler(service *company.Service) *Handler {
-	return &Handler{
+	h := &Handler{
 		Service: service,
 	}
 

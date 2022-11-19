@@ -7,37 +7,39 @@ import (
 
 	"log"
 
-	"github.com/melinaco4/companies-manager/internal/company"
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
+	"github.com/melinaco4/companies-manager/internal/company"
 )
 
 type CompanyService interface {
 	PostCompany(context.Context, company.Company) (company.Company, error)
 	GetCompany(ctx context.Context, ID string) (company.Company, error)
-	UpdateCompany(ctx context.Context, ID string, newCmpn company.Company (company.Company, error)
+	UpdateCompany(ctx context.Context, ID string, newCmpn company.Company) (company.Company, error)
 	DeleteCompany(ctx context.Context, ID string) error
 }
 
+/*
 type Response struct {
 	Message string
 }
+*/
 
 type PostCompanyRequest struct {
-	Name  string `json:"slug" validate:"required"`
-	Description string `json:"author"`
-	AmountofEmployees   int `json:"amountofemployees" validate:"required"`
-	Registered  string `json:"registered" validate:"required"`
-	Type   string `json:"body" validate:"required"`
+	Name              string `json:"slug" validate:"required"`
+	Description       string `json:"author"`
+	AmountofEmployees int    `json:"amountofemployees" validate:"required"`
+	Registered        bool   `json:"registered" validate:"required"`
+	Type              string `json:"body" validate:"required"`
 }
 
-func (convertPostCompanyRequestToCompanyc PostCompanyRequest) company.Company{
+func convertPostCompanyRequestToCompany(c PostCompanyRequest) company.Company {
 	return company.Company{
-		Name:   c.Name,
-		Description: c.Description,
-		AmountofEmployees:   c.AmountofEmployees,
-		Registered: c.Registered,
-		Type: c.Type,
+		Name:              c.Name,
+		Description:       c.Description,
+		AmountofEmployees: c.AmountofEmployees,
+		Registered:        c.Registered,
+		Type:              c.Type,
 	}
 }
 
@@ -54,7 +56,7 @@ func (h *Handler) PostCompany(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	convertedCompany:= convertPostCompanyRequestToCompany(cmpn)
+	convertedCompany := convertPostCompanyRequestToCompany(cmpn)
 	postedCompany, err := h.Service.PostCompany(r.Context(), convertedCompany)
 	if err != nil {
 		log.Print(err)
@@ -82,7 +84,7 @@ func (h *Handler) GetCompany(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(cmt); err != nil {
+	if err := json.NewEncoder(w).Encode(cmpn); err != nil {
 		panic(err)
 	}
 }
@@ -96,7 +98,7 @@ func (h *Handler) UpdateCompany(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var cmpn company.Company
-	if err := json.NewDecoder(r.Body).Decode(&cmt); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
 		return
 	}
 
