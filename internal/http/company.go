@@ -26,11 +26,11 @@ type Response struct {
 */
 
 type PostCompanyRequest struct {
-	Name              string `json:"slug" validate:"required"`
-	Description       string `json:"author"`
+	Name              string `json:"name" validate:"required"`
+	Description       string `json:"description"`
 	AmountofEmployees int    `json:"amountofemployees" validate:"required"`
 	Registered        bool   `json:"registered" validate:"required"`
-	Type              string `json:"body" validate:"required"`
+	Type              string `json:"type" validate:"required"`
 }
 
 func convertPostCompanyRequestToCompany(c PostCompanyRequest) company.Company {
