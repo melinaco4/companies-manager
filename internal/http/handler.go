@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+
 	"net/http"
 	"os"
 	"os/signal"
@@ -13,7 +14,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/melinaco4/companies-manager/internal/company"
-	log "github.com/sirupsen/logrus"
 )
 
 type CompanyService interface{}
