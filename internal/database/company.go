@@ -105,10 +105,10 @@ func (d *Database) UpdateCompany(
 
 	rows, err := d.Client.NamedQueryContext(
 		ctx,
-		`UPDATE comments SET
-		name = :slug,
-		description = :author,
-		amountofemployees = :body,
+		`UPDATE companies SET
+		name = :name,
+		description = :description,
+		amountofemployees = :amountofemployees,
 		registered = :registered,
 		type = :type
 		WHERE id = :id`,
