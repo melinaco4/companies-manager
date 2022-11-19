@@ -10,6 +10,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
+//Migrating the database, reading from the files in the companies-manager/migration folder to create new table
+// if it doesn't exist or drop the table.
+//Irrelevant Comment:
+// I also tried to create a MongoDB database with the gorm package and migrate it with the AutoMigrate function
+// which was a lot easier but I had to change strategy as I had a hard time with the uuid id in the MongoDB
 func (d *Database) MigrateDB() error {
 	fmt.Println("migrating our database")
 

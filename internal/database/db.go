@@ -9,6 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// defining and establishing connection with the database
 type Database struct {
 	Client *sqlx.DB
 }

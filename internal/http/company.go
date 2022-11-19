@@ -25,6 +25,7 @@ type Response struct {
 }
 */
 
+// struct created for the REST Api requests in json format
 type PostCompanyRequest struct {
 	Name              string `json:"name" validate:"required"`
 	Description       string `json:"description"`
@@ -33,6 +34,7 @@ type PostCompanyRequest struct {
 	Type              string `json:"type" validate:"required"`
 }
 
+// created to convert the json request body to the Company Struct that the Service.Post method accepts
 func convertPostCompanyRequestToCompany(c PostCompanyRequest) company.Company {
 	return company.Company{
 		Name:              c.Name,
@@ -42,6 +44,8 @@ func convertPostCompanyRequestToCompany(c PostCompanyRequest) company.Company {
 		Type:              c.Type,
 	}
 }
+
+// the Handler Methods to handle the REST Api requests
 
 func (h *Handler) Health(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")

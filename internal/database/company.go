@@ -9,6 +9,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+//Creating the CompanyRow struct for the database functions
 type CompanyRow struct {
 	ID                string
 	Name              sql.NullString
@@ -18,6 +19,8 @@ type CompanyRow struct {
 	Type              sql.NullString
 }
 
+//this function is used in the Post And Update functions of the database to return a Company struct
+//useful as those database functions are used in the company functions
 func convertCompanyRowToCompany(c CompanyRow) company.Company {
 	return company.Company{
 		ID:                c.ID,
