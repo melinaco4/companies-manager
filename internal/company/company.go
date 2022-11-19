@@ -59,7 +59,8 @@ func (s *Service) GetCompany(ctx context.Context, id string) (Company, error) {
 func (s *Service) CreateCompany(ctx context.Context, cmmpn Company) (Company, error) {
 	cmmpn, err := s.Store.CreateCompany(ctx, cmmpn)
 	if err != nil {
-		log.Errorf("an error occurred adding the comment: %s", err.Error())
+		//log.Errorf("an error occurred adding the company: %s", err.Error())
+		fmt.Println("an error occurred adding the company")
 	}
 	return cmmpn, nil
 }
@@ -68,7 +69,8 @@ func (s *Service) UpdateCompany(ctx context.Context, ID string, newCompany Compa
 ) (Company, error) {
 	cmt, err := s.Store.UpdateCompany(ctx, ID, newCompany)
 	if err != nil {
-		log.Errorf("an error occurred updating the comment: %s", err.Error())
+		//log.Errorf("an error occurred updating the company: %s", err.Error())
+		fmt.Println("an error occurred updating the company")
 	}
 	return cmt, nil
 }
@@ -78,6 +80,6 @@ func (s *Service) DeleteCompany(ctx context.Context, ID string) error {
 }
 
 func (s *Service) ReadyCheck(ctx context.Context) error {
-	log.Info("Checking readiness")
+	//log.Info("Checking readiness")
 	return s.Store.Ping(ctx)
 }
