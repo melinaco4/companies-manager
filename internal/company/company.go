@@ -18,7 +18,6 @@ var (
 // representation of the company structure
 type Company struct {
 	gorm.Model
-	ID                string
 	Name              string
 	Description       string
 	AmountofEmployees string
