@@ -43,6 +43,14 @@ func convertPostCompanyRequestToCompany(c PostCompanyRequest) company.Company {
 	}
 }
 
+func (h *Handler) Health(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(Response{Message: "I am Healthy, Up & Running!"}); err != nil {
+		panic(err)
+	}
+}
+
 func (h *Handler) PostCompany(w http.ResponseWriter, r *http.Request) {
 	var cmpn PostCompanyRequest
 	if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
