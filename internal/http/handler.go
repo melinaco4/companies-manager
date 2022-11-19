@@ -26,7 +26,7 @@ func NewHandler(service *company.Service) *Handler {
 	}
 }
 
-func (h *Handler) mapRoutes() {
+func (h *Handler) SetupRoutes() {
 
 	h.Router = mux.NewRouter()
 	h.Router.HandleFunc("/api/company/{id}", h.GetCompany).Methods("GET")
