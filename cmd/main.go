@@ -26,11 +26,28 @@ func Run() error {
 	}
 	fmt.Println("Migration Check: Migrated database successfully")
 
-	cmpnyService := company.NewService(db)
-	fmt.Println(cmpnyService.GetCompany(
-		context.Background(), "dafafafafafafa",
-	))
-
+	//cmpnyService := company.NewService(db)
+	test, err := db.PostCompany(
+		context.Background(),
+		company.Company{
+			ID:                "kj12sd23-2345-gfds-gv34-gr4egr24ff2d",
+			Name:              "Test",
+			Description:       "Just a description",
+			AmountofEmployees: "1434",
+			Registered:        true,
+			Type:              "NonProfit",
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(test)
+	fmt.Println(db.GetCompany(context.Background(), "kj12sd23-2345-gfds-gv34-gr4egr24ff2d"))
+	/*
+		fmt.Println(cmpnyService.GetCompany(
+			context.Background(), "dafafafafafafa",
+		))
+	*/
 	return nil
 }
 func main() {

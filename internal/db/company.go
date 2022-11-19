@@ -82,8 +82,7 @@ func (d *Database) PostCompany(ctx context.Context, cmpny company.Company) (comp
 	return cmpny, nil
 }
 
-/*
-func (d *Database) UpdateComment(ctx context.Context, id string, cmt company.Company) (company.Company, error) {
+func (d *Database) UpdateComment(ctx context.Context, id string, cmpny company.Company) (company.Company, error) {
 	cmpnyRow := CompanyRow{
 		ID:                cmpny.ID,
 		Name:              sql.NullString{String: cmpny.Name, Valid: true},
@@ -125,4 +124,3 @@ func (d *Database) DeleteCompany(ctx context.Context, id string) error {
 	}
 	return nil
 }
-*/
