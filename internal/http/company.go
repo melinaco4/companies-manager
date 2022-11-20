@@ -109,16 +109,7 @@ func (h *Handler) UpdateCompany(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	/*
-		var cmpn company.Company
-		if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
-			return
-		}
 
-
-
-		cmpn, err := h.Service.UpdateCompany(r.Context(), id, cmpn)
-	*/
 	var cmpn PostCompanyRequest
 	if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
 		return
