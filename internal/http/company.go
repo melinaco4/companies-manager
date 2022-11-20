@@ -109,8 +109,17 @@ func (h *Handler) UpdateCompany(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	/*
+		var cmpn company.Company
+		if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
+			return
+		}
 
-	var cmpn company.Company
+
+
+		cmpn, err := h.Service.UpdateCompany(r.Context(), id, cmpn)
+	*/
+	var cmpn PostCompanyRequest
 	if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
 		return
 	}
@@ -123,14 +132,15 @@ func (h *Handler) UpdateCompany(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmpn, err := h.Service.UpdateCompany(r.Context(), id, cmpn)
+	convertedCompany := convertPostCompanyRequestToCompany(cmpn)
+	updatedCompany, err := h.Service.UpdateCompany(r.Context(), id, convertedCompany)
 	if err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(cmpn); err != nil {
+	if err := json.NewEncoder(w).Encode(updatedCompany); err != nil {
 		panic(err)
 	}
 
