@@ -31,7 +31,7 @@ type PostCompanyRequest struct {
 	Description       string `json:"description" validate:"max=3000"`
 	AmountofEmployees int    `json:"amountofemployees" validate:"required"`
 	Registered        bool   `json:"registered" validate:"required"`
-	Type              string `json:"type" validate:"required"`
+	Type              string `json:"type" validate:"oneof=Corporations NonProfit Cooperative SoleProprietorship)"`
 }
 
 // created to convert the json request body to the Company Struct that the Service.Post method accepts
