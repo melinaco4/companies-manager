@@ -64,6 +64,7 @@ func (h *Handler) PostCompany(w http.ResponseWriter, r *http.Request) {
 	validate := validator.New()
 	err := validate.Struct(cmpn)
 	if err != nil {
+		log.Print(err)
 		http.Error(w, "not a valid company", http.StatusBadRequest)
 		return
 	}
@@ -111,6 +112,14 @@ func (h *Handler) UpdateCompany(w http.ResponseWriter, r *http.Request) {
 
 	var cmpn company.Company
 	if err := json.NewDecoder(r.Body).Decode(&cmpn); err != nil {
+		return
+	}
+
+	validate := validator.New()
+	err := validate.Struct(cmpn)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, "not a valid company", http.StatusBadRequest)
 		return
 	}
 
