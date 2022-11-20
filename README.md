@@ -28,7 +28,11 @@ git clone https://github.com/melinaco4/companies-manager
 ```
 !Make sure docker is running
 
-In the companies-manager directory execute the command:
+Inside the companies-manager directory execute the command:
+```
+task build
+```
+And in the same directory then the command
 ```
 task run
 ```
