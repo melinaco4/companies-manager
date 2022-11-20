@@ -27,7 +27,7 @@ type Response struct {
 
 // struct created for the REST Api requests in json format
 type PostCompanyRequest struct {
-	Name              string `json:"name" validate:"required, min=2,max=15" `
+	Name              string `json:"name" validate:"required,min=2,max=15" `
 	Description       string `json:"description" validate:"max=3000"`
 	AmountofEmployees int    `json:"amountofemployees" validate:"required"`
 	Registered        bool   `json:"registered" validate:"required"`
