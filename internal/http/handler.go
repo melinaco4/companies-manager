@@ -49,27 +49,32 @@ func NewHandler(service *company.Service) *Handler {
 }
 
 func (h *Handler) Serve() error {
+
+	idleConnsClosed := make(chan struct{})
 	go func() {
-		if err := h.Server.ListenAndServe(); err != nil {
-			log.Println(err.Error())
+
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, os.Interrupt)
+		signal.Notify(c, syscall.SIGTERM)
+		<-c
+
+		log.Println("Service interrupt received!")
+
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cancel()
+
+		if err := h.Server.Shutdown(ctx); err != nil {
+			log.Printf("Http Server Shutdown error: %v", err)
 		}
+
+		log.Println("Shut down gracefully!!!")
+		close(idleConnsClosed)
 	}()
 
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	signal.Notify(c, syscall.SIGTERM)
-	<-c
-
-	log.Println("Service interrupt received!")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	if err := h.Server.Shutdown(ctx); err != nil {
-		log.Printf("Http Server Shutdown error: %v", err)
+	if err := h.Server.ListenAndServe(); err != nil {
+		log.Println(err.Error())
 	}
 
-	log.Println("Shut down gracefully!!!")
 	return nil
 }
 
