@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/melinaco4/companies-manager/internal/run"
 )
@@ -11,5 +12,6 @@ func main() {
 	app := run.App{}
 	if err := app.Run(); err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 }
