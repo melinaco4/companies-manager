@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -50,7 +51,7 @@ func NewHandler(service *company.Service) *Handler {
 func (h *Handler) Serve() error {
 	go func() {
 		if err := h.Server.ListenAndServe(); err != nil {
-			//log.Println(err.Error())
+			log.Println(err.Error())
 		}
 	}()
 
@@ -61,7 +62,7 @@ func (h *Handler) Serve() error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	h.Server.Shutdown(ctx)
-
+	fmt.Println("shutttttt dowwwwn")
 	log.Println("shut down gracefully")
 	return nil
 }
