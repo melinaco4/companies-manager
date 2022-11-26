@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	"net/http"
@@ -50,17 +51,23 @@ func NewHandler(service *company.Service) *Handler {
 func (h *Handler) Serve() error {
 	go func() {
 		if err := h.Server.ListenAndServe(); err != nil {
-			log.Printf("niaou: %v", err.Error())
+			log.Println(err.Error())
 		}
 	}()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, syscall.SIGTERM)
 	<-c
+
+	log.Println("Service interrupt received!")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
-	h.Server.Shutdown(ctx)
+
+	if err := h.Server.Shutdown(ctx); err != nil {
+		log.Printf("Http Server Shutdown error: %v", err)
+	}
 
 	log.Println("Shut down gracefully!!!")
 	return nil
