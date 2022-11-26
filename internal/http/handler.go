@@ -59,8 +59,8 @@ func (h *Handler) Serve() error {
 		defer cancel()
 		h.Server.Shutdown(ctx)
 
-		log.Println("shut down gracefully")
-		return nil*/
+		log.Println("shut down gracefully")*/
+	return nil
 }
 
 func (h *Handler) mapRoutes() {
