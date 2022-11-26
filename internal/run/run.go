@@ -1,7 +1,7 @@
 package run
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/melinaco4/companies-manager/internal/company"
 	"github.com/melinaco4/companies-manager/internal/database"
@@ -11,15 +11,15 @@ import (
 type App struct{}
 
 func (app *App) Run() error {
-	fmt.Println("Application started and ready to go!")
+	log.Println("Application started and ready to go!")
 
 	db, err := database.NewDatabase()
 	if err != nil {
-		fmt.Println("failed to connect to the database")
+		log.Println("failed to connect to the database")
 		return err
 	}
 	if err := db.MigrateDB(); err != nil {
-		fmt.Println("failed to migrate database")
+		log.Println("failed to migrate database")
 		return err
 	}
 

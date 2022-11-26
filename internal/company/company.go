@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 )
 
 var (
@@ -44,11 +45,11 @@ func NewService(store Store) *Service {
 
 // retrieves a company from the database or returns error
 func (s *Service) GetCompany(ctx context.Context, id string) (Company, error) {
-	fmt.Printf("Getting a Company with id: %s\n", id)
+	log.Printf("Getting a Company with id: %s\n", id)
 
 	cmpn, err := s.Store.GetCompany(ctx, id)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return Company{}, ErrFetchingCompany
 	}
 
@@ -63,7 +64,7 @@ func (s *Service) UpdateCompany(
 ) (Company, error) {
 	cmpn, err := s.Store.UpdateCompany(ctx, ID, updatedCmpn)
 	if err != nil {
-		fmt.Println("error updating Company")
+		log.Println("error updating Company")
 		return Company{}, err
 	}
 	fmt.Printf("Updating Company with id: %s\n", ID)
@@ -72,7 +73,7 @@ func (s *Service) UpdateCompany(
 
 // deleting company by id in the database
 func (s *Service) DeleteCompany(ctx context.Context, id string) error {
-	fmt.Printf("Deleting Company with id: %s\n", id)
+	log.Printf("Deleting Company with id: %s\n", id)
 	return s.Store.DeleteCompany(ctx, id)
 }
 
@@ -82,6 +83,6 @@ func (s *Service) PostCompany(ctx context.Context, cmpn Company) (Company, error
 	if err != nil {
 		return Company{}, err
 	}
-	fmt.Println("Creating a Company")
+	log.Println("Creating a Company")
 	return insertedCmpn, nil
 }

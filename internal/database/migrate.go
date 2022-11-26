@@ -3,6 +3,7 @@ package database
 import (
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
@@ -38,6 +39,6 @@ func (d *Database) MigrateDB() error {
 		}
 	}
 
-	fmt.Println("successfully migrated the database")
+	log.Println("successfully migrated the database")
 	return nil
 }
