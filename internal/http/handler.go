@@ -45,11 +45,11 @@ func NewHandler(service *company.Service) *Handler {
 }
 
 func (h *Handler) Serve() error {
-	go func() {
-		if err := h.Server.ListenAndServe(); err != nil {
-			log.Println(err.Error())
-		}
-	}()
+	//go func() {
+	if err := h.Server.ListenAndServe(); err != nil {
+		log.Println(err.Error())
+	}
+	//	}()
 	/*
 		c := make(chan os.Signal, 1)
 		signal.Notify(c, os.Interrupt)
