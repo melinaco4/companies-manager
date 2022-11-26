@@ -1,7 +1,10 @@
 package http
 
 import (
+	"context"
 	"log"
+	"os"
+	"os/signal"
 	"time"
 
 	"net/http"
@@ -50,16 +53,16 @@ func (h *Handler) Serve() error {
 			log.Println(err.Error())
 		}
 	}()
-	/*
-		c := make(chan os.Signal, 1)
-		signal.Notify(c, os.Interrupt)
-		<-c
 
-		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-		defer cancel()
-		h.Server.Shutdown(ctx)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	<-c
 
-		log.Println("shut down gracefully")*/
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	h.Server.Shutdown(ctx)
+
+	log.Println("shut down gracefully")
 	return nil
 }
 
